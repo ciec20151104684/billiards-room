@@ -1,17 +1,11 @@
 package com.imnu.service;
 
+import java.sql.SQLException;
+
 import com.imnu.dao.Administratordao;
 
-//service中 用户 是否存在,存在返回ture
+//service中 用户 是否存在,存在返回
 public class adLoginService {
 	
-	public boolean getadInfo(String adUsername,String adPassword) {
-		
-		Administratordao adUserDao = new Administratordao();
-		adUserDao.getAdUserInfo(adUsername, adPassword);
-		
-		return false;
-			
-	}
 
 }

@@ -5,25 +5,44 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
+import com.imnu.bean.Administratorbean;
 import com.imnu.util.DBUtil;
-import com.mysql.jdbc.Statement;
+
+
+
 
 //根据用户名和密码查询用户是否存在
 public class Administratordao {
 	
-	public void getAdUserInfo(String adUsername,String adPassword) throws SQLException {
-		//获取连接
-		Connection connection = DBUtil.getConnection();
-		PreparedStatement statement = connection.prepareStatement("select * from administrators where ad_username = ? and ad_password =?");
+	
+	public Administratorbean login(String adUsername, String adPassword) {
+		// TODO Auto-generated method stub
+		Connection conn = DBUtil.getConnection();
+		String sql ="select * from administrators where ad_username = ? and ad_password =?";
+		Administratorbean Administrator =null;
 		
-		statement.setString(1, adUsername);
-		statement.setString(1, adPassword);
-		
-		//执行sql
-		ResultSet result=statement.executeQuery();
+		try {
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setString(1, adUsername);
+			pstm.setString(2, adPassword);
+			ResultSet rs = pstm.executeQuery();
+			 Administrator = new Administratorbean();
+			while(rs.next()) {
+				//Administrator.setAdId(rs.getString("ad_id"));
+				Administrator.setAdUsername(rs.getString("adUsername"));
+				Administrator.setAdPassword(rs.getString("adPassword"));
+			}
+			
+			
+		} catch (SQLException e) {
+			
+			
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Administrator;
 		
 	}
-	
-	
 
 }
