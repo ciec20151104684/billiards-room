@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>台球厅管理系统</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <script src="../assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/common-nav.css">
+   <style>
+    .main-div{height: 100%;}
+    .content-div{
+        background: #F2F2F2;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .content-table-div{
+        background: #ffff;
+        width: 96%;
+        height: 96%;
+    }
+    .content-title{
+        height: 5rem;
+        line-height: 5rem;
+        padding: 0 2rem;
+        color: #999;
+        font-size: 1.5rem;
+        border-bottom: 0.1rem solid #e4e4e4;
+    }
+    .snooker-list{
+        padding: 2rem;
+        overflow: hidden;
+    }
+    .snooker-item{
+        width: 20%;
+        padding: 0.5rem 0.3rem;
+        margin: 1%;
+        float: left;
+        border-radius: 1rem;
+        text-indent: 1rem;
+        background: #ccc7c7;
+        color: #ffff;
+        height: 12rem;
+    }
+    .snooker-button{
+        float: right;
+        height: 2.5rem;
+        width: 100%;
+        border: none;
+        outline: none;
+        background: #337ab7;
+        border-radius: 0.5rem;
+        margin-top: 1rem;
+    }
+    .snooker-active{
+        background: #2057A7
+    }
+    .snooker-title{
+        height: 4rem;
+        font-size: 2.5rem;
+    }
+   
+   </style>
+</head>
+<body>
+    <div class="row main-div">
+        <div class="col-md-2 nav-div">
+            <div class="nav-title">
+                <span class="glyphicon glyphicon-screenshot"></span>
+                台球厅管理系统
+            </div>
+            <ul class="nav-ul">
+                <li class="nav-li">
+                    <a href="./usermanage.html">
+                        <span class="glyphicon glyphicon-user"></span>
+                        会员管理
+                    </a>
+                </li>
+                <li class="nav-li nav-active">
+                    <a href="./snookermanage.html">
+                        <span class="glyphicon glyphicon-inbox"></span>
+                        台球桌管理
+                    </a>
+                </li>  
+                <li class="nav-li">
+                    <div id="logout-btn">
+                        <span class="glyphicon glyphicon-off"></span>
+                        注销登陆
+                    </div>
+                </li>
+                <li class="nav-li">
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                    更多
+                </li>  
+            </ul>
+        </div>
+        <div class="col-md-10 content-div">
+            <div class="content-table-div">
+                <div class="content-title row">
+                    <span class="col-md-10">台球桌管理</span>
+                    <span class="col-md-2">
+                        <button data-toggle="modal" data-target="#myModal" class="btn btn-danger">订台</button>
+                    </span>
+                </div>
+                <ul class="snooker-list">
+                    <!-- <li class="snooker-item snooker-active">
+                        <div class="snooker-title">1号桌</div>
+                        <div class="snooker-p">已使用</div>
+                        <div class="snooker-p">
+                            开始时间：2013/12/12 12:00
+                        </div>
+                        <button class="snooker-button">结账</button>
+                    </li> -->
+                    <!-- <li class="snooker-item">
+                        <div class="snooker-title">2号桌</div>
+                        <div class="snooker-p">未使用</div>
+                        <div class="snooker-p">
+                            开始时间：2013/12/12 12:00
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog"  style="width:20%">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">订台下单</h4>
+                        </div>
+                        <div class="modal-body">
+                            选择桌号：
+                            <select id="snooker-submitnum">
+                                <option>1号桌</option>
+                                <option>2号桌</option>
+                                <option>3号桌</option>
+                                <option>4号桌</option>
+                                <option>5号桌</option>
+                                <option>6号桌</option>
+                                <option>7号桌</option>
+                                <option>8号桌</option>                           
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" data-dismiss="modal" id="snooker-submit-btn" class="btn btn-primary">提交更改</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+        </div>
+    </div>
+<script src="../assets/js/logout.js"></script>
+<script>
+const BASEURL = "http://localhost:8080/Billiard/"
+$(document).ready(function(){
+    getAllSnooker()
+    $("#snooker-submit-btn").click(function(){
+        snookerSubmitAction()
+    })
+});
+// 获取所有的台
+function getAllSnooker(){
+    $.ajax({
+            type: 'get',
+            url: BASEURL+"table/all",
+            data:"",
+            success: function(res){
+                console.log(res)                
+                if(res.status==1){
+                    drawSnooker(res.object)
+                }               
+            },
+        });
+}
+function drawSnooker(list){
+    $(".snooker-list").html("");
+    var str="";
+    for(var i=0;i<list.length;i++){
+        if(list[i].tableFlag==0){
+            str+="<li class='snooker-item'>"+
+                "<div class='snooker-title'>"+list[i].tableId+"</div>"+
+                "<div class='snooker-p'>未使用</div>";
+        }else{
+            str+="<li class='snooker-item snooker-active'>"+
+                "<div class='snooker-title'>"+list[i].tableId+"</div>"+
+                "<div class='snooker-p'>正在使用</div>"+
+                "<div class='snooker-p'>开始:"+
+                list[i].tableStarttime+"</div>"+
+                "<button id='"+list[i].tableId+"' onclick=\"snookerCloseAction('"+list[i].tableId.toString()+"')\" class='snooker-button'>结账</button>"
+        }
+        str+="</li>"
+    }
+    $ (".snooker-list").html(str);       
+}
+// 订台事件
+function snookerSubmitAction(){
+    var submitNum = $("#snooker-submitnum").val()
+    $.ajax({
+            type: 'post',
+            url: BASEURL+"table/start",
+            data:{"tableid":submitNum},
+            success: function(res){
+                console.log(res)                
+                getAllSnooker()     
+            },
+        });
+}
+// 关台球桌
+function snookerCloseAction(oid){
+    $.ajax({
+            type: 'post',
+            url: BASEURL+"table/settle",
+            data:{"tableid":oid},
+            success: function(res){
+                console.log(res) 
+                if(res.status==1){
+                    var num = res.object;
+                    alert("总共用时"+num+"分钟，花费"+num*10+"元")
+                    getAllSnooker()     
+                }                               
+            },
+        });
+}
+</script>
+</body>
+</html>

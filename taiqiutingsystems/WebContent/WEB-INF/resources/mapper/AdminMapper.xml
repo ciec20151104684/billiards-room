@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="billiard.dao.AdminDao">
+  
+  <resultMap id="findUserMap" type="map">
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  
+  <select id="selectByPwd" parameterType="java.lang.String" resultMap="findUserMap">
+    select name from admin where username=#{0} and pwd=#{1}
+  </select>
+  
+</mapper>

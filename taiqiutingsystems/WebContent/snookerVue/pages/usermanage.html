@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>台球厅管理系统</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <script src="../assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/common-nav.css">
+   <style>
+    .main-div{height: 100%;}
+    .content-div{
+        background: #F2F2F2;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .content-table-div{
+        background: #ffff;
+        width: 96%;
+        height: 96%;
+    }
+    .content-title{
+        height: 5rem;
+        line-height: 5rem;
+        padding: 0 2rem;
+        color: #999;
+        font-size: 1.5rem;
+        border-bottom: 0.1rem solid #e4e4e4;
+    }
+    .content-title-action-div{
+        text-align: center;
+        display: inline-block;
+        height: 4rem;
+        line-height: 4rem;
+    }
+    .content-title-search-div{
+        display: inline-block;
+        border-bottom:0.1rem solid #F2F2F2 ;
+    }
+    .content-title-search-div input{
+        border: none;
+        outline: none;
+    }
+    .content-table{
+        width: 90%;
+        margin: 1rem auto;
+        text-align: center
+    }
+    .btn{margin: 0 0.3rem}
+   </style>
+</head>
+<body>
+    <div class="row main-div">
+        <div class="col-md-2 nav-div">
+            <div class="nav-title">
+                <span class="glyphicon glyphicon-screenshot"></span>
+                台球厅管理系统
+            </div>
+            <ul class="nav-ul">
+                <li class="nav-li nav-active">
+                    <a href="./usermanage.html">
+                        <span class="glyphicon glyphicon-user"></span>
+                        会员管理
+                    </a>
+                </li>
+                <li class="nav-li">
+                    <a href="./snookermanage.html">
+                        <span class="glyphicon glyphicon-inbox"></span>
+                        台球桌管理
+                    </a>
+                </li>  
+                <li class="nav-li">
+                    <div id="logout-btn">
+                        <span class="glyphicon glyphicon-off"></span>
+                        注销登陆
+                    </div>
+                </li>
+                <li class="nav-li">
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                    更多
+                </li>  
+            </ul>
+        </div>
+        <div class="col-md-10 content-div">
+            <div class="content-table-div">
+                <div class="content-title row">
+                    <span class="col-md-2">会员列表</span>
+                    <div class="content-title-action-div col-md-6">
+                        <div class="content-title-search-div">
+                            <input id="search-input" class="my-input" type="text" placeholder="输入查找用户名">
+                            <span id="search-btn" class="cursor glyphicon glyphicon-search"></span>
+                        </div>
+                    </div>
+                    <span class="col-md-2 cursor" onclick="getAlluser()">显示所有会员</span>                    
+                    <span class="col-md-2 cursor" data-toggle="modal" data-target="#myModal">添加会员</span>
+                </div>
+                <table class="content-table table table-striped">
+                    <thead>
+                        <tr>
+                            <td>序号</td>
+                            <td>姓名</td>
+                            <td>身份证号</td>
+                            <td>余额</td>
+                            <td>操作</td>                        
+                        </tr>
+                    </thead>
+                    <tbody id="userlist-ul">
+                        <!-- <tr>
+                            <td>1</td>
+                            <td>wangjuj</td>
+                            <td>1212</td>
+                            <td id="0">
+                                <button class="btn btn-danger" onclick='deleteUser'>删 除</button>
+                                <button class="btn btn-info" data-toggle="modal" data-target="#changeUserDiv">修 改</button>
+                            </td>                        
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+            <!-- 添加用户模态框 -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">添加会员</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>姓名</label>
+                                <input type="text" class="form-control" id="addname" placeholder="请输入名称">
+                            </div>
+                            <div class="form-group">
+                                <label for="name">身份证号</label>
+                                <input type="text" class="form-control" id="addid" placeholder="请输入身份证号">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="addbtn">确认添加</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+            <!-- 修改用户模态框 -->
+            <div class="modal fade" id="changeUserDiv" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">修改会员信息</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>姓名</label>
+                                    <input type="text" class="form-control" id="changename" placeholder="请输入名称">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">身份证号</label>
+                                    <input type="text" class="form-control" id="changeid" placeholder="请输入身份证号">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="changebtn">确认修改</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal -->
+            </div>
+        </div>
+    </div>
+<script src="../assets/js/logout.js"></script>
+<script>
+    const BASEURL = "http://localhost:8080/Billiard/"
+    $(document).ready(function(){
+       getAlluser()
+       addUserAction()
+       searchUserAction()
+    });
+    // 获取全部的会员列表
+    function getAlluser(){
+        $.ajax({
+                type: 'GET',
+                url: BASEURL+"user/all",
+                success: function(res){
+                    console.log(res)
+                    if(res.status==1){
+                        var userlist = res.object;
+                        drawTable(userlist)
+                    }else if(res.status==0){
+                        $("#userlist-ul").html("<i>无用户信息<i>");
+                    }
+                    deleteUserAction()
+                    changeUserAction()
+                    addMoneyAction()
+                    costMoneyAction()
+                },
+            });
+    }
+    function drawTable(userlist){
+        $("#userlist-ul").html("");
+        var str="";
+        for(var i=0;i<userlist.length;i++){
+            str+="<tr id='"+userlist[i].id+"'><td>"+(i+1)+
+                "</td><td>"+userlist[i].name+
+                "</td><td>"+userlist[i].cardid+
+                "</td><td>"+userlist[i].balance+
+                "</td><td id='"+userlist[i].cardid+"'>"+
+                "<button class='btn btn-success addMoneyBtn'>充值</button>"+
+                "<button class='btn btn-primary costMoneyBtn'>扣费</button>"+
+                "<button class='btn btn-danger deleteUserBtn'>删除</button>"+
+                "<button class='btn btn-info changeUserBtn'>修改</button>"+
+                "</td></tr>";
+        }
+        $("#userlist-ul").html(str);                        
+    }
+    // 添加用户
+    function addUserAction(){
+        $("#addbtn").click(function(){
+            var name = $("#addname").val()
+            var oid = $("#addid").val()
+            var mydata = {
+                "name":name,"cardid":oid
+            }
+            $.ajax({
+                type: 'post',
+                url: BASEURL+"user/add",
+                data:mydata,
+                success: function(res){
+                    console.log(res)
+                    $('#myModal').modal('hide')
+                    if(res.status==2){
+                        getAlluser()
+                    }else{
+                        alert("添加失败")
+                    }
+                    clearAll()
+                },
+            });
+        })
+    }
+    // 修改用户
+    function changeUserAction(){
+        $('.changeUserBtn').each(function(index){
+            var oid=this.parentNode.id
+            var name = this.parentNode.parentNode.children[1].innerText
+            var id = this.parentNode.parentNode.id            
+            $(this).click(function(){
+                changeAction(id,oid,name)
+            })
+        })
+    }
+    function changeAction(id,oid,name){
+        $('#changename').val(name)
+        $('#changeid').val(oid)
+        $('#changeUserDiv').modal('show')
+        $('#changebtn').click(function(){
+            $.ajax({
+                type: 'post',
+                url: BASEURL+"user/modify",
+                data:{"id":id,"cardid":$('#changeid').val(),"name":$('#changename').val()},
+                success: function(res){
+                    console.log(res)
+                    if(res.status==2){
+                        $('#changeUserDiv').modal('hide')
+                        getAlluser()
+                    }else{
+                        alert(res.message)
+                    }
+                },
+            })
+        })
+    }
+    // 删除会员
+    function deleteUserAction(){
+        $('.deleteUserBtn').each(function(index){
+            var oid = this.parentNode.id
+            $(this).click(function(){
+                deleteAction(oid)
+            })
+        })
+    }
+    function deleteAction(oid){
+        $('#'+oid).click(function(){
+            $.ajax({
+                type: 'post',
+                url: BASEURL+"user/delete",
+                data:{"cardid":oid},
+                success: function(res){
+                    console.log(res)
+                    if(res.status==2){
+                        alert("删除成功")
+                        getAlluser()
+                    }
+                },
+            });
+        })
+    }
+    // 查找用户
+    function searchUserAction(){
+        $("#search-btn").click(function(){
+            var oname = $("#search-input").val().trim()
+            // if(oname==""){
+            //     alert("查找用户姓名为空")
+            // }else{
+                $.ajax({
+                type: 'post',
+                url: BASEURL+"user/search",
+                data:{"name":oname},
+                success: function(res){
+                    console.log(res)
+                    if(res.status==1){
+                        drawTable(res.object)
+                    }
+                },
+            });
+            // }
+        })
+    }
+    // 充值
+    function addMoneyAction(){
+        $('.addMoneyBtn').each(function(index){
+            var oid=this.parentNode.id
+            $(this).click(function(){
+                moneyAction(oid,'充值','recharge')
+            })
+        })
+    }
+    // 扣费
+    function costMoneyAction(){
+        $('.costMoneyBtn').each(function(index){
+            var oid=this.parentNode.id
+            $(this).click(function(){
+                moneyAction(oid,'扣费','pay')
+            })
+        })
+    }
+    function moneyAction(oid,actionType,actionUrl){
+        var addval = parseFloat(prompt(actionType+"金额(只能为数字且不能有空格)",0))
+        if(!window.isNaN(addval)){
+            $.ajax({
+                type: 'post',
+                url: BASEURL+"user/"+actionUrl,
+                data:{"money":addval,"cardid":oid},
+                success: function(res){
+                    console.log(res)
+                    if(res.status==2){
+                        // alert('操作成功')
+                        getAlluser()
+                    }else{
+                        alert(res.message)
+                    }
+                },
+            })
+        }
+    }
+    // 清空
+    function clearAll(){
+        $("#addname").val("")
+        $("#addid").val("")
+        $('#search-input').val("")
+    }
+</script>
+</body>
+</html>

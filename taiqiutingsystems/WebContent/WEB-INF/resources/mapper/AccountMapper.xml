@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="billiard.dao.AccountDao">
+  <resultMap id="BaseResultMap" type="billiard.entity.Account">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="cardID" jdbcType="VARCHAR" property="cardid" />
+    <result column="balance" jdbcType="VARCHAR" property="balance" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, cardID, balance
+  </sql>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from account
+  </select>
+  
+  <select id="selectAccount" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from account where 1=1
+    	  <if test="id != null">
+	        and id = #{id,jdbcType=INTEGER} 
+	      </if>
+	      <if test="name != null">
+	        and name = #{name,jdbcType=VARCHAR} 
+	      </if>
+	      <if test="cardid != null">
+	        and cardID = #{cardid,jdbcType=VARCHAR}
+	      </if>
+  </select>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from account
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="boolIsExist" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(*) from account where cardID = #{cardid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectBanlanceByCardID" parameterType="java.lang.String" resultType="java.lang.String">
+    select balance from account where cardID = #{cardid,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByCardID" parameterType="java.lang.String">
+    delete from account where cardID = #{cardid,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="billiard.entity.Account">
+    insert into account (id, name, cardID, 
+      balance)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{cardid,jdbcType=VARCHAR}, 
+      #{balance,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertAccount" parameterType="billiard.entity.Account">
+    insert into account
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="cardid != null">
+        cardID,
+      </if>
+      <if test="balance != null">
+        balance,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cardid != null">
+        #{cardid,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null">
+        #{balance,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="billiard.entity.Account">
+    update account
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cardid != null">
+        cardID = #{cardid,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null">
+        balance = #{balance,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateBalanceByCardID" parameterType="java.lang.String">
+    update account set balance = #{1} where cardID = #{0}
+  </update>
+  
+</mapper>

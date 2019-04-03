@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="billiard.dao.BilliardTableDao">
+  <resultMap id="BaseResultMap" type="billiard.entity.BilliardTable">
+    <id column="table_id" jdbcType="VARCHAR" property="tableId" />
+    <result column="table_flag" jdbcType="INTEGER" property="tableFlag" />
+    <result column="table_starttime" jdbcType="VARCHAR" property="tableStarttime" />
+    <result column="table_endtime" jdbcType="VARCHAR" property="tableEndtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    table_id, table_flag, table_starttime, table_endtime
+  </sql>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from billiard_table
+  </select>
+  
+  <select id="isPlaying" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(*) from billiard_table where table_id = #{tableId,jdbcType=VARCHAR} and table_flag=1
+  </select>
+
+  <select id="getStartTime" parameterType="java.lang.String" resultType="java.lang.String">
+    select table_starttime from billiard_table where table_id = #{tableId,jdbcType=VARCHAR}
+  </select>
+
+  <update id="updateTime" parameterType="billiard.entity.BilliardTable">
+    update billiard_table
+    <set>
+      <if test="tableFlag != null">
+        table_flag = #{tableFlag,jdbcType=INTEGER},
+      </if>
+      <if test="tableStarttime != null">
+        table_starttime = #{tableStarttime,jdbcType=VARCHAR},
+      </if>
+      <if test="tableEndtime != null">
+        table_endtime = #{tableEndtime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where table_id = #{tableId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="clearTime" parameterType="java.lang.String">
+    update billiard_table set table_flag = 0, table_starttime = null, table_endtime=null
+    where table_id = #{tableId,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>
